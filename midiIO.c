@@ -84,15 +84,16 @@ MIDIheader MIDIheaderLoad(FILE * f) {
     int error = FALSE; //error flag
 
     if (!error) { //Try to read MIDI header
-        //read header
         read = fread(&header, sizeof(header), 1, f);
 
-        if (read != 1) { //Read failed
+        //Header has not been read correctly
+        if (read != 1) { //Print header read failure
             printf("Failed to read header\n");
             error = TRUE;
         }
     }
 
+    //Header has been read correctly
     if (!error) { //reverse bytes in case of big endianness
         header.headerLength = flipBytes_uint32_t(header.headerLength);
         header.format = flipBytes_uint16_t(header.format);
@@ -100,8 +101,18 @@ MIDIheader MIDIheaderLoad(FILE * f) {
         header.division = flipBytes_uint16_t(header.division);
     }
 //C:\users\Mark\Desktop\toot\test.mid
-    if (!error) {
-        printf("MThd tag (should be MThd): %s\n", header.MThd);
+    //Header has been read correctly
+    if (!error) { //Print MIDI header
+        //Add '\0' to text tags
+        char pMThd[5];
+        int i = 0;
+
+        for (i = 0; i < 4; i++) {
+            pMThd[i] = header.MThd[i];
+        }
+        pMThd[4] = '\0';
+
+        printf("MThd tag (should be MThd): %s\n", pMThd);
         printf("Header length: %d bytes\n", header.headerLength);
 
         switch((int)header.format) {
