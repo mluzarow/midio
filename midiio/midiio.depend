@@ -1,0 +1,10 @@
+# depslib dependency file v1.0
+1435432275 source:c:\users\mark\desktop\toot\midiio.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"midiIO.h"
+
+1435432044 c:\users\mark\desktop\toot\midiio.h
+	<stdint.h>
+
